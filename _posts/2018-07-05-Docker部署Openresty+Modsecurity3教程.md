@@ -142,6 +142,8 @@ RUN cd nginx_waf && git clone https://github.com/SpiderLabs/owasp-modsecurity-cr
 RUN echo "\n\n#加载规则配置文件\nInclude crs-setup.conf\n#加载所有规则\nInclude rules/*.conf\n#禁用某个规则方法\n#SecRuleRemoveById 911250\n" >> /etc/nginx/modsecurity.conf
 
 ### 将本地的 nginx.conf 放进去; 添加
+
+```
 COPY nginx.conf /etc/nginx/
 
 COPY entrypoint.sh /usr/local/bin/
