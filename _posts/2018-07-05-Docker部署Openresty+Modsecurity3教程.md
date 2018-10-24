@@ -29,14 +29,18 @@ tags:
 ### 安装失败; 回到3.0版本
 - 参考这个 Dockerfile 修改其中的Nginx为openresty
 
-```docker
+
+也可以用 -V 先连接
+```
+
+## 基础安装包
 from registry.cn-beijing.aliyuncs.com/actanble/centos7
 
-## 也可以用 -V 先连接
-###  docker run -itd --name=waf --net=host -v /etc/localtime:/etc/localtime -v /etc/yum.repos.d/:/etc/yum.repos.d/ \
-###         registry.cn-beijing.aliyuncs.com/actanble/centos7 /usr/sbin/init
 RUN yum -y update
-## 基础安装包
+
+#docker run -itd --name=waf --net=host -v /etc/localtime:/etc/localtime -v /etc/yum.repos.d/:/etc/yum.repos.d/ \
+#        registry.cn-beijing.aliyuncs.com/actanble/centos7 /usr/sbin/init
+
 
 RUN mkdir -p /usr/local/src/nginx_waf
 WORKDIR /usr/local/src/nginx_waf
@@ -134,12 +138,15 @@ RUN find /etc/nginx/ -type f -name "modsecurity.conf" | xargs sed -i "s/SecRuleE
 
 
 ### 将开源的检测规则放在我们的 nginx 里面
+
+```
 RUN cd nginx_waf && git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git \
 && cd owasp-modsecurity-crs/ \
 && cp -R owasp-modsecurity-crs/rules/ /etc/nginx/  \
 && cp crs-setup.conf.example /etc/nginx/crs-setup.conf
 ### waf配置文件加载配置。
 RUN echo "\n\n#加载规则配置文件\nInclude crs-setup.conf\n#加载所有规则\nInclude rules/*.conf\n#禁用某个规则方法\n#SecRuleRemoveById 911250\n" >> /etc/nginx/modsecurity.conf
+```
 
 ### 将本地的 nginx.conf 放进去; 添加
 
