@@ -47,7 +47,7 @@ sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 # Step 3: 更新并安装 Docker-CE
 sudo yum makecache fast
-sudo yum -y install docker-ce
+sudo yum -y install docker-ce-17.12.0.ce-1.el7.centos 
 # Step 4: 开启Docker服务
 sudo service docker start
 
